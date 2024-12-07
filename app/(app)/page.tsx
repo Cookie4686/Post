@@ -1,6 +1,6 @@
+import Loading from "@/app/loading";
 import NovelList from "@/app/ui/novelList";
 import { Suspense } from "react";
-import Loading from "@/app/loading";
 
 export default function Page() {
   return (
