@@ -1,10 +1,10 @@
 // import Image from "next/image";
 // import { BookmarkIcon as BookmarkSolid } from "@heroicons/react/24/solid";
 // import { BookmarkIcon as BookmarkOutline } from "@heroicons/react/24/outline";
-import { type NovelCard } from "@/app/lib/database";
+import { CardData } from "@/app/lib/database";
 import "./card.css";
 
-export default function Card(props: { novel: NovelCard }) {
+export default function Card(props: { novel: CardData }) {
   const { novel } = props;
   return (
     <div className="flex justify-between p-4 w-[--card-w] h-[--card-h] rounded bg-slate-50">
