@@ -16,7 +16,7 @@ export async function getNovels() {
     const novels = await prisma.novels.findMany(selectOption);
     return { novels };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return { novels: [] }
   }
   finally {
