@@ -9,19 +9,36 @@ export default function Page() {
   return (
     <form action={action}>
       <div>
-        <label htmlFor="username">
-          <input type="text" name="username" placeholder="Username" />
+        <label htmlFor="name">
+          <input
+            type="text"
+            name="name"
+            placeholder="Username"
+            autoComplete="username"
+          />
         </label>
-        {state?.errors?.username && <p>{state.errors.username}</p>}
+        {state?.errors?.username && (
+          <p className="text-sm text-red-500">{state.errors.username}</p>
+        )}
       </div>
 
       <div>
         <label htmlFor="password">
-          <input type="password" name="password" placeholder="Password" />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            autoComplete="off"
+          />
         </label>
-        {state?.errors?.password && <p>{state.errors.password}</p>}
+        {state?.errors?.password && (
+          <p className="text-sm text-red-500">{state.errors.password}</p>
+        )}
       </div>
       <SubmitButton />
+      {state?.message && (
+        <p className="text-sm text-red-500">{state.message}</p>
+      )}
     </form>
   );
 }

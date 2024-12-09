@@ -14,23 +14,24 @@ type FormState = {
 
 export async function signUp(state: FormState, formData: FormData): Promise<FormState> {
   const parsedForm = UserSchema.safeParse({
-    username: formData.get('username'),
+    name: formData.get('name'),
     password: formData.get('password'),
   })
-  if (!parsedForm.success) {
-    return { errors: parsedForm.error.flatten().fieldErrors, }
-  }
-  const { username, password } = parsedForm.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  try {
-    prisma.$connect();
-    await prisma.user.create({ data: { username, password: hashedPassword } });
-  } catch (err) {
-    console.warn(err);
-    return {
-      message: 'An error occurred while creating your account.',
+  if (parsedForm.success) {
+    const { name, password } = parsedForm.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+      await prisma.$connect();
+      await prisma.user.create({ data: { name, password: hashedPassword } });
+    } catch (err) {
+      console.warn(err);
+      return {
+        message: 'An error occurred while creating your account.',
+      }
+    } finally {
+      await prisma.$disconnect();
     }
-  } finally {
-    prisma.$disconnect();
+  } else {
+    return { errors: parsedForm.error.flatten().fieldErrors }
   }
 }

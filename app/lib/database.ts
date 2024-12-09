@@ -22,3 +22,16 @@ export async function getNovels() {
     await prisma.$disconnect();
   }
 }
+
+export async function getUserNovel(author: string) {
+  try {
+    await prisma.$connect();
+    const novels = await prisma.novel.findMany({ ...selectOption, where: { author } });
+    return { novels };
+  } catch (err) {
+    console.error(err);
+    return { novels: [] }
+  } finally {
+    await prisma.$disconnect();
+  }
+}

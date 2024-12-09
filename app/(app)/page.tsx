@@ -1,6 +1,7 @@
-import Loading from "@/app/loading";
-import NovelList from "@/app/ui/novelList";
 import { Suspense } from "react";
+import Loading from "@/app/loading";
+import CardWrapper from "@/app/components/NovelCard/CardWrapper";
+import { getNovels } from "@/app/lib/database";
 
 export default function Page() {
   return (
@@ -19,4 +20,9 @@ export default function Page() {
       </section>
     </>
   );
+}
+
+async function NovelList() {
+  const { novels } = await getNovels();
+  return <CardWrapper novels={novels}></CardWrapper>;
 }
