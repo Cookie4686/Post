@@ -1,5 +1,5 @@
 'use server';
-import { prisma } from "@/prisma/prisma";
+import prisma from "@/prisma/prisma";
 
 export type CardData = {
   id: string;
@@ -7,7 +7,7 @@ export type CardData = {
   author: string;
   tags: string[];
 };
-const selectOption = { select: { id: true, title: true, author: true, tags: true } };
+const selectOption = { select: { id: true, title: true, author: true, tags: true }, cacheStrategy: { ttl: 60 } };
 
 export async function getNovels() {
   try {

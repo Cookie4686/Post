@@ -1,7 +1,7 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import { prisma } from '@/prisma/prisma';
+import prisma from '@/prisma/prisma';
 import { UserSchema } from "@/auth";
 
 type FormState = {
