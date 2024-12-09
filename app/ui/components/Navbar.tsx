@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MoonIcon } from "@heroicons/react/24/solid";
 import ReactLogo from "@/app/assets/react.svg";
+import ThemeButton from "./ThemeButton";
+import AuthState from "./AuthState";
 
 export default function NavBar() {
   const links: { text: string; href: string }[] = [
@@ -22,10 +23,9 @@ export default function NavBar() {
           ))}
         </ul>
       </div>
-      <div className="flex justify-center">
-        <button>
-          <MoonIcon width={24} color="black"></MoonIcon>
-        </button>
+      <div className="flex justify-center items-center gap-4">
+        <ThemeButton />
+        <AuthState />
       </div>
     </nav>
   );

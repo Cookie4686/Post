@@ -1,5 +1,5 @@
 'use server';
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/prisma/prisma";
 
 export type CardData = {
   id: string;
@@ -9,11 +9,10 @@ export type CardData = {
 };
 const selectOption = { select: { id: true, title: true, author: true, tags: true } };
 
-const prisma = new PrismaClient();
 export async function getNovels() {
   try {
     await prisma.$connect();
-    const novels = await prisma.novels.findMany(selectOption);
+    const novels = await prisma.novel.findMany(selectOption);
     return { novels };
   } catch (err) {
     console.error(err);

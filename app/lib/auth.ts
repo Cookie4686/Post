@@ -1,7 +1,7 @@
 'use server'
 
-import { PrismaClient } from "@prisma/client";
 import bcrypt from 'bcryptjs'
+import { prisma } from '@/prisma/prisma';
 import { UserSchema } from "@/auth";
 
 type FormState = {
@@ -22,10 +22,9 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
   }
   const { username, password } = parsedForm.data;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const prisma = new PrismaClient();
   try {
     prisma.$connect();
-    await prisma.users.create({ data: { username, password: hashedPassword } });
+    await prisma.user.create({ data: { username, password: hashedPassword } });
   } catch (err) {
     console.warn(err);
     return {
