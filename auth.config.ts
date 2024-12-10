@@ -6,4 +6,9 @@ export const authConfig = {
     signIn: '/login',
   },
   providers: [Credentials({})],
+  callbacks: {
+    async signIn({ user }) {
+      return !!user;
+    },
+  }
 } satisfies NextAuthConfig;

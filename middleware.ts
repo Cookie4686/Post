@@ -12,9 +12,6 @@ export default async function middleware(req: NextRequest) {
   if (isProtectedRoute && !session?.user) {
     return NextResponse.redirect(new URL('/login', req.nextUrl))
   }
-  if (session?.user && (path.startsWith('/login') || path.startsWith('/signup'))) {
-    return NextResponse.redirect(new URL('/write', req.nextUrl))
-  }
 
   return NextResponse.next()
 }
