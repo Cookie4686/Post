@@ -4,7 +4,7 @@ export default function ReaderCardWrapper(props: { novels: ReaderCard[] }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,15rem)] gap-4 h-full w-full">
       {props.novels.map((novel) => (
-        <Card key={novel.id} novel={novel}></Card>
+        <Card key={novel.title} novel={novel}></Card>
       ))}
     </div>
   );
@@ -20,7 +20,7 @@ function Card(props: { novel: ReaderCard }) {
         {/* header */}
         <div className="w-full max-h-[10rem] text-ellipsis overflow-hidden">
           <div className="font-bold">{novel.title}</div>
-          <div className="text-sm italic">{novel.author}</div>
+          <div className="text-sm italic">{novel.author.name}</div>
         </div>
         {/* footer */}
         <li className="flex items-center gap-2">

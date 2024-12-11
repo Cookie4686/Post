@@ -8,6 +8,8 @@ export default async function middleware(req: NextRequest) {
   const isProtectedRoute = protectedRoutes.some(e => path.startsWith(e));
 
   const session = await auth();
+  console.log(session);
+
 
   if (isProtectedRoute && !session?.user) {
     return NextResponse.redirect(new URL('/login', req.nextUrl))

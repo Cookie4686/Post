@@ -20,11 +20,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const { name, password } = parsedCredentials.data;
           const user = await getUser(name);
           if (user && await bcrypt.compare(password, user.password)) {
-            console.log("log in successful");
-            return user;
+            console.log(`user-(${user.name}) log in successful`);
+            return { id: user.id, name: user.name };
           }
+          console.warn(`user-(${name}) unsuccessful log in`);
+        } else {
+          console.warn("invalid log in credentials");
         }
-        console.warn("log in unsuccessful");
         return null;
       },
     }),
@@ -33,11 +35,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 async function getUser(name: string) {
   try {
-    await prisma.$connect();
-    return await prisma.user.findUnique({ where: { name } })
+    return await prisma.user.findUnique({ select: { id: true, name: true, password: true }, where: { name } })
   } catch (err) {
+    console.warn(`Get user-(${name}) failed`);
     console.warn(err);
-  } finally {
-    await prisma.$disconnect();
   }
 }
