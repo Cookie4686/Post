@@ -5,7 +5,7 @@ const protectedRoutes = ['/draft', '/write']
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
-  const isProtectedRoute = protectedRoutes.includes(path)
+  const isProtectedRoute = protectedRoutes.some(e => path.startsWith(e));
 
   const session = await auth();
 

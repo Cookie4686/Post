@@ -1,4 +1,5 @@
-import { type WriterCard } from "@/app/lib/database";
+import { makePublic, type WriterCard } from "@/app/lib/database";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ export default function WriterCardWrapper(props: { novels: WriterCard[] }) {
 function Card(props: { novel: WriterCard }) {
   const { novel } = props;
   return (
-    <div className="grid grid-cols-[20%,10%,40%,20%,10%] items-center gap-2 h-24 p-4 w-full bg-slate-50">
+    <div className="grid grid-cols-[30%,50%,10%,10%] items-center gap-2 h-24 p-4 w-full bg-slate-50">
       {/* title */}
       <div className="overflow-hidden">
         <div className="font-bold">{novel.title}</div>
@@ -30,14 +31,27 @@ function Card(props: { novel: WriterCard }) {
           ))}
         </li>
       </div>
-      <div className="overflow-hidden">
-        {novel.published ? <div>Published</div> : <div>Private</div>}
-      </div>
       <div className="text-nowrap overflow-hidden">{novel.description}</div>
       <div className="overflow-hidden">{novel.createdAt.toLocaleString()}</div>
-      <Link href={`/write/${novel.id}`}>
-        <PencilIcon width={24} height={24} title="edit" />
-      </Link>
+      <div className="overflow-hidden flex gap-4">
+        <Link href={`/write/${novel.id}`}>
+          <PencilIcon width={24} height={24} title="edit" />
+        </Link>
+        <form
+          action={async () => {
+            "use server";
+            await makePublic(novel.id, !novel.published);
+          }}
+        >
+          <button>
+            {novel.published ? (
+              <EyeIcon width={24} height={24} />
+            ) : (
+              <EyeSlashIcon width={24} height={24} />
+            )}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

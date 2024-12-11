@@ -34,15 +34,11 @@ export default function Page() {
               />
             </label>
             <div className="flex gap-4">
-              <label htmlFor="tag1">
-                <input type="text" name="tags" id="tag1" placeholder="Tag1" />
-              </label>
-              <label htmlFor="tag2">
-                <input type="text" name="tags" id="tag2" placeholder="Tag2" />
-              </label>
-              <label htmlFor="tag3">
-                <input type="text" name="tags" id="tag3" placeholder="Tag3" />
-              </label>
+              {["tag1", "tag2", "tag3"].map((e) => (
+                <label key={e} htmlFor={e}>
+                  <input type="text" name="tags" id={e} placeholder={e} />
+                </label>
+              ))}
             </div>
             <button type="submit">Post</button>
           </form>
