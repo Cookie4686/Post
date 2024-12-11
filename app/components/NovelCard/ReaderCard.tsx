@@ -1,33 +1,41 @@
-// import Image from "next/image";
-// import { BookmarkIcon as BookmarkSolid } from "@heroicons/react/24/solid";
-// import { BookmarkIcon as BookmarkOutline } from "@heroicons/react/24/outline";
-import { CardData } from "@/app/lib/database";
-import "./card.css";
+import { type ReaderCard } from "@/app/lib/database";
 
-export default function Card(props: { novel: CardData }) {
+export default function ReaderCardWrapper(props: { novels: ReaderCard[] }) {
+  return (
+    <div className="grid grid-cols-[repeat(auto-fit,15rem)] gap-4 h-full w-full">
+      {props.novels.map((novel) => (
+        <Card key={novel.id} novel={novel}></Card>
+      ))}
+    </div>
+  );
+}
+
+function Card(props: { novel: ReaderCard }) {
   const { novel } = props;
   return (
-    <div className="flex justify-between p-4 w-[--card-w] h-[--card-h] rounded bg-slate-50">
+    <div
+      className={`flex justify-between p-4 w-[15rem] h-[20rem] rounded bg-slate-50`}
+    >
       <div className="flex flex-col justify-between w-full">
         {/* header */}
-        <div className="w-full max-h-[--card-h-half] text-ellipsis overflow-hidden">
+        <div className="w-full max-h-[10rem] text-ellipsis overflow-hidden">
           <div className="font-bold">{novel.title}</div>
           <div className="text-sm italic">{novel.author}</div>
         </div>
         {/* footer */}
-        <div className="flex items-center">
-          {novel.tags.slice(0, 3).map((tag) => (
-            <span
+        <li className="flex items-center gap-2">
+          {novel.tags.map((tag) => (
+            <ul
               className="p-1 text-xs font-semibold rounded-lg bg-white"
               key={tag}
             >
               {tag}
-            </span>
+            </ul>
           ))}
           {/* {novel.bookmark && (
               <BookmarkOutline width={16} height={16} title="last bookmarked" />
             )} */}
-        </div>
+        </li>
       </div>
       {/* <form>
         <button>

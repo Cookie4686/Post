@@ -8,6 +8,7 @@ export default function NavBar() {
   const links: { text: string; href: string }[] = [
     { text: "Home", href: "/" },
     { text: "Bookmark", href: "/bookmark" },
+    { text: "Draft", href: "/draft" },
     { text: "Write", href: "/write" },
   ];
 

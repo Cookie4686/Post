@@ -18,11 +18,19 @@ export default function Page() {
                 placeholder="Title"
               />
             </label>
+            <label htmlFor="description">
+              <input
+                type="text"
+                name="description"
+                autoComplete="off"
+                placeholder="Description"
+              />
+            </label>
             <label htmlFor="body">
               <textarea
                 name="body"
                 autoComplete="off"
-                placeholder="write here"
+                placeholder="write your story here"
               />
             </label>
             <div className="flex gap-4">

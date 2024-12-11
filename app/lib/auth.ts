@@ -47,8 +47,7 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
       await prisma.$connect();
       await prisma.user.create({ data: { name, password: hashedPassword } });
       await signIn("credentials", { name, password, redirect: false });
-    } catch (err) {
-      console.warn(err);
+    } catch {
       return {
         message: 'An error occurred while creating your account.',
       }

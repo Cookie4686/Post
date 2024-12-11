@@ -1,16 +1,16 @@
-import { Suspense } from "react";
+import CardWrapper from "@/app/components/NovelCard/WriterCard";
+import { writerGetNovels } from "@/app/lib/database";
 import Loading from "@/app/loading";
-import CardWrapper from "@/app/components/NovelCard/ReaderCard";
-import { getNovels } from "@/app/lib/database";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
     <>
       <header>
-        <h1>Home</h1>
+        <h1>Draft</h1>
       </header>
       <section>
-        <h2>NovelList</h2>
+        <h2>Your Novels</h2>
         <hr />
         <div className="p-4">
           <Suspense fallback={<Loading />}>
@@ -23,6 +23,6 @@ export default function Page() {
 }
 
 async function NovelList() {
-  const { novels } = await getNovels();
+  const { novels } = await writerGetNovels();
   return <CardWrapper novels={novels}></CardWrapper>;
 }
