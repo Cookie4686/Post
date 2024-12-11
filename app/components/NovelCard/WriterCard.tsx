@@ -7,7 +7,7 @@ export default function WriterCardWrapper(props: { novels: WriterCard[] }) {
   return (
     <div className="flex flex-col w-full">
       {props.novels.map((novel) => (
-        <Card key={novel.id} novel={novel}></Card>
+        <Card key={novel.title} novel={novel}></Card>
       ))}
     </div>
   );
@@ -21,10 +21,10 @@ function Card(props: { novel: WriterCard }) {
       <div className="overflow-hidden">
         <div className="font-bold">{novel.title}</div>
         <li className="flex items-center gap-2">
-          {novel.tags.map((tag) => (
+          {novel.tags.map((tag, idx) => (
             <ul
               className="p-1 text-xs font-semibold rounded-lg bg-white"
-              key={tag}
+              key={idx}
             >
               {tag}
             </ul>
@@ -40,7 +40,7 @@ function Card(props: { novel: WriterCard }) {
         <form
           action={async () => {
             "use server";
-            await makePublic(novel.id, !novel.published);
+            await makePublic(!novel.published, novel.id);
           }}
         >
           <button>

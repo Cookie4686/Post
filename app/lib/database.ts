@@ -25,14 +25,13 @@ export async function getNovels(): Promise<{ novels: ReaderCard[] }> {
 }
 
 // As a Writer
-export type WriterCard = ReaderCard & { description: string, createdAt: Date, published: boolean }
-const writerCardSelect = { ...readerCardSelect, description: true, createdAt: true, published: true };
+export type WriterCard = ReaderCard & { id: string, description: string, createdAt: Date, published: boolean }
+const writerCardSelect = { ...readerCardSelect, id: true, description: true, createdAt: true, published: true };
 
 // GET
 export async function writerGetNovels(): Promise<{ novels: WriterCard[] }> {
   const session = await auth();
   const id = session?.user?.id;
-  console.log(id);
   if (id) {
     try {
       const { novels } = await prisma.user.findUnique({ select: { novels: { select: writerCardSelect } }, where: { id } }) || { novels: [] };
@@ -45,21 +44,22 @@ export async function writerGetNovels(): Promise<{ novels: WriterCard[] }> {
   redirect('/login');
 }
 
-export async function writerGetNovel(id: string) {
+export async function writerGetNovel(novelId: string) {
   const session = await auth();
-  const author = session?.user?.name;
-  if (author) {
+  if (session) {
+    const authorId = session.user.id;
     try {
-      const novel = await prisma.novel.findUnique({ where: { id } });
+      const novel = await prisma.novel.findUnique({ where: { id: novelId, authorId } })
       if (novel) {
-        return { novel };
+        return { novel }
       }
     } catch (err) {
       console.error(err);
     }
     redirect('/draft');
+  } else {
+    redirect('/login');
   }
-  redirect('/login');
 }
 
 
@@ -72,14 +72,13 @@ const NovelSchema = z.object({
 })
 export async function createNovel(formData: FormData) {
   const session = await auth();
-  const id = session?.user?.id;
-  const name = session?.user?.name;
-  if (id && name) {
+  if (session) {
+    const { id } = session.user;
     const parsedForm = NovelSchema.safeParse({
       title: formData.get('title'),
       description: formData.get('description'),
       body: formData.get('body'),
-      tags: formData.get('tags'),
+      tags: formData.getAll('tags'),
     });
     if (parsedForm.success) {
       const novelData = parsedForm.data;
@@ -89,8 +88,9 @@ export async function createNovel(formData: FormData) {
         console.error(err);
       }
     }
+  } else {
+    redirect('/login');
   }
-  redirect('/login');
 }
 
 export async function editNovel(formData: FormData, novelId: string) {
@@ -120,14 +120,15 @@ export async function editNovel(formData: FormData, novelId: string) {
       }
       redirect('/draft');
     }
+  } else {
+    redirect('/login');
   }
-  redirect('/login');
 }
 
 export async function makePublic(published: boolean, novelId: string) {
   const session = await auth();
-  const id = session?.user?.id;
-  if (id) {
+  if (session) {
+    const { id } = session.user;
     try {
       await prisma.user.update({
         where: { id }, data: {
@@ -142,6 +143,7 @@ export async function makePublic(published: boolean, novelId: string) {
     } catch (err) {
       console.error(err);
     }
+  } else {
+    redirect('/login');
   }
-  redirect('/login');
 }

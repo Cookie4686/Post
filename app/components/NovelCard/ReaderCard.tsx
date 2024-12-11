@@ -24,10 +24,10 @@ function Card(props: { novel: ReaderCard }) {
         </div>
         {/* footer */}
         <li className="flex items-center gap-2">
-          {novel.tags.map((tag) => (
+          {novel.tags.map((tag, idx) => (
             <ul
               className="p-1 text-xs font-semibold rounded-lg bg-white"
-              key={tag}
+              key={idx}
             >
               {tag}
             </ul>
