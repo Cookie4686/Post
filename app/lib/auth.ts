@@ -5,7 +5,7 @@ import prisma from '@/prisma/prisma';
 import { signIn, UserSchema } from "@/auth";
 import { redirect } from 'next/navigation';
 
-type FormState = {
+export type FormState = {
   errors?: {
     username?: string[]
     password?: string[]

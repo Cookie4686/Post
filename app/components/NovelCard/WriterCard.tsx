@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function WriterCardWrapper(props: { novels: WriterCard[] }) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col gap-4 w-full">
       {props.novels.map((novel) => (
         <Card key={novel.title} novel={novel}></Card>
       ))}
@@ -16,16 +16,13 @@ export default function WriterCardWrapper(props: { novels: WriterCard[] }) {
 function Card(props: { novel: WriterCard }) {
   const { novel } = props;
   return (
-    <div className="grid grid-cols-[30%,50%,10%,10%] items-center gap-2 h-24 p-4 w-full bg-slate-50">
+    <div className="grid grid-cols-[30%,50%,10%,10%] items-center gap-2 h-24 p-4 w-full border rounded">
       {/* title */}
       <div className="overflow-hidden">
         <div className="font-bold">{novel.title}</div>
         <li className="flex items-center gap-2">
           {novel.tags.map((tag, idx) => (
-            <ul
-              className="p-1 text-xs font-semibold rounded-lg bg-white"
-              key={idx}
-            >
+            <ul className="p-1 text-xs font-semibold rounded-lg " key={idx}>
               {tag}
             </ul>
           ))}

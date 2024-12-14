@@ -14,7 +14,7 @@ function Card(props: { novel: ReaderCard }) {
   const { novel } = props;
   return (
     <div
-      className={`flex justify-between p-4 w-[15rem] h-[20rem] rounded bg-slate-50`}
+      className={`flex justify-between p-4 w-[15rem] h-[20rem] rounded border`}
     >
       <div className="flex flex-col justify-between w-full">
         {/* header */}
@@ -25,10 +25,7 @@ function Card(props: { novel: ReaderCard }) {
         {/* footer */}
         <li className="flex items-center gap-2">
           {novel.tags.map((tag, idx) => (
-            <ul
-              className="p-1 text-xs font-semibold rounded-lg bg-white"
-              key={idx}
-            >
+            <ul className="p-1 text-xs font-semibold rounded-lg" key={idx}>
               {tag}
             </ul>
           ))}

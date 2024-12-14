@@ -49,9 +49,9 @@ export async function writerGetNovel(novelId: string) {
   if (session) {
     const authorId = session.user.id;
     try {
-      const novel = await prisma.novel.findUnique({ where: { id: novelId, authorId } })
+      const novel = await prisma.novel.findUnique({ where: { id: novelId, authorId }, select: { title: true, description: true, body: true, tags: true } })
       if (novel) {
-        return { novel }
+        return { novel };
       }
     } catch (err) {
       console.error(err);
