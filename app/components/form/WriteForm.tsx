@@ -1,3 +1,4 @@
+import Button from "../Button";
 import TextInput from "./TextInput";
 
 export default function WriteForm({
@@ -43,7 +44,7 @@ export default function WriteForm({
           />
         ))}
       </div>
-      <button type="submit">Post</button>
+      <Button type="submit">Post</Button>
     </form>
   );
 }

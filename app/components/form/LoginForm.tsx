@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { FormState } from "@/app/lib/auth";
 import TextInput from "./TextInput";
+import Button from "../Button";
 
 export default function LoginForm({
   action,
@@ -42,8 +43,8 @@ function SubmitButton({ name }: { name: string }) {
   const { pending } = useFormStatus();
 
   return (
-    <button disabled={pending} type="submit">
+    <Button disabled={pending} type="submit">
       {name}
-    </button>
+    </Button>
   );
 }

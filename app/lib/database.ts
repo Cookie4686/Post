@@ -16,7 +16,7 @@ const readerCardSelect = { title: true, tags: true, author: { select: { name: tr
 // GET
 export async function getNovels(): Promise<{ novels: ReaderCard[] }> {
   try {
-    const novels = await prisma.novel.findMany({ select: readerCardSelect, where: { published: true }, cacheStrategy: { ttl: 60, swr: 5, tags: ['novels'] } });
+    const novels = await prisma.novel.findMany({ select: readerCardSelect, where: { published: true }, cacheStrategy: { ttl: 5, tags: ['novels'] } });
     return { novels };
   } catch (err) {
     console.error(err);

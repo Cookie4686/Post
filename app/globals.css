@@ -6,11 +6,13 @@
 .light {
   --background: #fff;
   --foreground: #000;
+  --accent: #271ee1;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #fdfdfd;
+  --accent: #4d45eb;
 }
 
 body {

@@ -42,9 +42,14 @@ function Card(props: { novel: WriterCard }) {
         >
           <button>
             {novel.published ? (
-              <EyeIcon width={24} height={24} />
+              <EyeIcon width={24} height={24} color="lime" title="publish" />
             ) : (
-              <EyeSlashIcon width={24} height={24} />
+              <EyeSlashIcon
+                width={24}
+                height={24}
+                color="red"
+                title="unpublish"
+              />
             )}
           </button>
         </form>
