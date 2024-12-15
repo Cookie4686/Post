@@ -111,11 +111,11 @@ export async function writerGetNovels(): Promise<{ novels: WriterCard[] }> {
   redirect('/login');
 }
 
-export async function writerGetNovel(novelId: string): Promise<{ novel: WriterCard }> {
+export async function writerGetNovel(novelId: string): Promise<{ novel: WriterCard & { body: string } }> {
   const authorId = (await auth())?.user.id;
   if (authorId) {
     try {
-      const novel = await prisma.novel.findUnique({ where: { id: novelId, authorId }, select: writerCardSelect })
+      const novel = await prisma.novel.findUnique({ where: { id: novelId, authorId }, select: { ...writerCardSelect, body: true } })
       if (novel) {
         return { novel };
       }
