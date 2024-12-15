@@ -1,4 +1,9 @@
+"use client";
+
 import { type ReaderCard } from "@/app/lib/database";
+import { BookmarkIcon } from "@heroicons/react/24/outline";
+import { addBookmark, deleteBookmark } from "@/app/lib/database";
+import { usePathname } from "next/navigation";
 
 export default function ReaderCardWrapper(props: { novels: ReaderCard[] }) {
   return (
@@ -12,6 +17,7 @@ export default function ReaderCardWrapper(props: { novels: ReaderCard[] }) {
 
 function Card(props: { novel: ReaderCard }) {
   const { novel } = props;
+  const pathName = usePathname();
   return (
     <div
       className={`flex justify-between p-4 w-[15rem] h-[20rem] rounded border`}
@@ -29,20 +35,21 @@ function Card(props: { novel: ReaderCard }) {
               {tag}
             </ul>
           ))}
-          {/* {novel.bookmark && (
-              <BookmarkOutline width={16} height={16} title="last bookmarked" />
-            )} */}
         </li>
       </div>
-      {/* <form>
-        <button>
-          { {novel.bookmark ? (
-              <BookmarkSolid width={24} height={24} title="UnBookmark" />
-            ) : (
-              <BookmarkOutline width={24} height={24} title="Bookmark" />
-            )}}
-        </button>
-      </form> */}
+      {novel.bookmark ? (
+        <form action={deleteBookmark.bind(null, novel.id, pathName)}>
+          <button>
+            <BookmarkIcon width={24} height={24} fill="currentcolor" />
+          </button>
+        </form>
+      ) : (
+        <form action={addBookmark.bind(null, novel.id, pathName)}>
+          <button>
+            <BookmarkIcon width={24} height={24} fill="transparent" />
+          </button>
+        </form>
+      )}
     </div>
   );
 }
