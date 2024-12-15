@@ -9,23 +9,27 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  password  String
-  novels    Novel[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bookmarkIds String[] @db.ObjectId
+  bookmarks   Novel[]  @relation(name: "bookmark", fields: [bookmarkIds], references: [id])
+  novels      Novel[]  @relation(name: "write")
 }
 
 model Novel {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  authorId    String    @db.ObjectId
-  title       String    @unique
-  description String
-  body        String
-  tags        String[]
-  createdAt   DateTime  @default(now())
-  published   Boolean   @default(false)
-  publishedAt DateTime?
-  author      User      @relation(fields: [authorId], references: [id])
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  authorId      String    @db.ObjectId
+  title         String    @unique
+  description   String
+  body          String
+  tags          String[]
+  createdAt     DateTime  @default(now())
+  published     Boolean   @default(false)
+  publishedAt   DateTime?
+  bookmarkerIds String[]  @db.ObjectId
+  bookmarkers   User[]    @relation(name: "bookmark", fields: [bookmarkerIds], references: [id])
+  author        User      @relation(name: "write", fields: [authorId], references: [id])
 }
