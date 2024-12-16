@@ -16,30 +16,18 @@ export type ReaderCard = {
 const readerCardSelect = { id: true, title: true, tags: true, author: { select: { name: true } } };
 
 // GET
-export async function getNovels(): Promise<{ novels: ReaderCard[] }> {
+export async function getPosts(): Promise<{ novels: ReaderCard[] }> {
   const id = (await auth())?.user.id;
   try {
     const novels = await prisma.novel.findMany({ select: { ...readerCardSelect, id: true }, where: { published: true } });
     if (id) {
       const bookmarkIds = (await prisma.user.findUnique({ where: { id }, select: { bookmarkIds: true } }))?.bookmarkIds || [];
       return {
-        novels: novels.map(e => ({
-          id: e.id,
-          title: e.title,
-          author: e.author,
-          tags: e.tags,
-          bookmark: bookmarkIds.includes(e.id)
-        }))
+        novels: novels.map(e => ({ ...e, bookmark: bookmarkIds.includes(e.id) }))
       }
     };
     return {
-      novels: novels.map(e => ({
-        id: e.id,
-        title: e.title,
-        author: e.author,
-        tags: e.tags,
-        bookmark: false
-      }))
+      novels: novels.map(e => ({ ...e, bookmark: false }))
     }
   } catch (err) {
     console.error(err);
@@ -52,14 +40,30 @@ export async function getBookmarks(): Promise<{ novels: ReaderCard[] }> {
   if (id) {
     try {
       const { bookmarks } = await prisma.user.findUnique({ where: { id }, select: { bookmarks: { select: readerCardSelect, where: { published: true } } } }) || { bookmarks: [] };
-      const novels = bookmarks.map(e => ({ ...e, bookmark: true }));
-      return { novels }
+      return { novels: bookmarks.map(e => ({ ...e, bookmark: true })) }
     } catch (err) {
       console.error(err);
-      return { novels: [] };
     }
+    return { novels: [] };
   }
   redirect('/login');
+}
+
+export async function getPost(novelId: string) {
+  const id = (await auth())?.user.id;
+  try {
+    const novel = await prisma.novel.findUnique({ where: { id: novelId }, select: { ...readerCardSelect, body: true }, cacheStrategy: { ttl: 60 } });
+    if (novel) {
+      if (id) {
+        const bookmarkIds = (await prisma.user.findUnique({ where: { id }, select: { bookmarkIds: true } }))?.bookmarkIds || [];
+        return { novel: { ...novel, bookmark: bookmarkIds.includes(novel.id) } };
+      }
+      return { novel: { ...novel, bookmark: false } };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  redirect('/post');
 }
 
 // POST
@@ -108,7 +112,7 @@ export type WriterCard = {
 const writerCardSelect = { ...readerCardSelect, description: true, createdAt: true, published: true };
 
 // GET
-export async function writerGetNovels(): Promise<{ novels: WriterCard[] }> {
+export async function writerGetPosts(): Promise<{ novels: WriterCard[] }> {
   const id = (await auth())?.user.id;
   if (id) {
     try {
@@ -122,7 +126,7 @@ export async function writerGetNovels(): Promise<{ novels: WriterCard[] }> {
   redirect('/login');
 }
 
-export async function writerGetNovel(novelId: string): Promise<{ novel: WriterCard & { body: string } }> {
+export async function writerGetPost(novelId: string): Promise<{ novel: WriterCard & { body: string } }> {
   const authorId = (await auth())?.user.id;
   if (authorId) {
     try {
@@ -147,7 +151,7 @@ const NovelSchema = z.object({
   body: z.string().max(500),
   tags: z.string().array(),
 })
-export async function createNovel(formData: FormData) {
+export async function createPost(formData: FormData) {
   const id = (await auth())?.user.id;
   if (id) {
     const parsedForm = NovelSchema.safeParse({
@@ -169,7 +173,7 @@ export async function createNovel(formData: FormData) {
   }
 }
 
-export async function editNovel(formData: FormData, novelId: string) {
+export async function editPost(formData: FormData, novelId: string) {
   const id = (await auth())?.user.id;
   if (id) {
     const parsedForm = NovelSchema.safeParse({

@@ -6,7 +6,7 @@ import { getPosts } from "@/app/lib/database";
 export default function Page() {
   return (
     <>
-      <h1>Home</h1>
+      <h1>Posts</h1>
       <hr />
       <div className="p-4">
         <Suspense fallback={<Loading />}>

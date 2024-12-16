@@ -34,12 +34,7 @@ function Card(props: { novel: WriterCard }) {
         <Link href={`/write/${novel.id}`}>
           <PencilIcon width={24} height={24} title="edit" />
         </Link>
-        <form
-          action={async () => {
-            "use server";
-            await makePublic(!novel.published, novel.id);
-          }}
-        >
+        <form action={makePublic.bind(null, !novel.published, novel.id)}>
           <button>
             {novel.published ? (
               <EyeIcon width={24} height={24} color="lime" title="publish" />
