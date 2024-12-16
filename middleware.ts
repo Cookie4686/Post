@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 
-const protectedRoutes = ['/draft', '/write']
+const protectedRoutes = ['/bookmark', '/draft', '/write']
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname

@@ -20,16 +20,27 @@ export async function getNovels(): Promise<{ novels: ReaderCard[] }> {
   const id = (await auth())?.user.id;
   try {
     const novels = await prisma.novel.findMany({ select: { ...readerCardSelect, id: true }, where: { published: true } });
-    const bookmarkIds = (await prisma.user.findUnique({ where: { id }, select: { bookmarkIds: true } }))?.bookmarkIds || [];
+    if (id) {
+      const bookmarkIds = (await prisma.user.findUnique({ where: { id }, select: { bookmarkIds: true } }))?.bookmarkIds || [];
+      return {
+        novels: novels.map(e => ({
+          id: e.id,
+          title: e.title,
+          author: e.author,
+          tags: e.tags,
+          bookmark: bookmarkIds.includes(e.id)
+        }))
+      }
+    };
     return {
       novels: novels.map(e => ({
         id: e.id,
         title: e.title,
         author: e.author,
         tags: e.tags,
-        bookmark: bookmarkIds.includes(e.id)
+        bookmark: false
       }))
-    };
+    }
   } catch (err) {
     console.error(err);
   }
@@ -40,7 +51,7 @@ export async function getBookmarks(): Promise<{ novels: ReaderCard[] }> {
   const id = (await auth())?.user.id;
   if (id) {
     try {
-      const { bookmarks } = await prisma.user.findUnique({ where: { id }, select: { bookmarks: { select: readerCardSelect } } }) || { bookmarks: [] };
+      const { bookmarks } = await prisma.user.findUnique({ where: { id }, select: { bookmarks: { select: readerCardSelect, where: { published: true } } } }) || { bookmarks: [] };
       const novels = bookmarks.map(e => ({ ...e, bookmark: true }));
       return { novels }
     } catch (err) {
