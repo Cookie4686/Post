@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs'
 import prisma from '@/prisma/prisma';
-import { signIn, UserSchema } from "@/auth";
+import { signIn, signOut, UserSchema } from "@/auth";
 
 export type FormState = {
   errors?: {
@@ -60,4 +60,8 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
   }
   const redirectUrl = formData.get('redirectUrl') as string;
   redirect(redirectUrl);
+}
+
+export async function logOut() {
+  await signOut({ redirect: true, redirectTo: "/login" });
 }

@@ -1,20 +1,15 @@
 import Link from "next/link";
-import { auth, signOut } from "@/auth";
 import {
   KeyIcon,
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/solid";
+import { auth } from "@/auth";
+import { logOut } from "@/app/lib/auth";
 
 export default async function AuthButton() {
   const session = await auth();
   return session?.user ? (
-    <form
-      className="h-6"
-      action={async () => {
-        "use server";
-        await signOut({ redirect: true, redirectTo: "/login" });
-      }}
-    >
+    <form className="h-6" action={logOut}>
       <button type="submit">
         <ArrowRightEndOnRectangleIcon
           width={24}
