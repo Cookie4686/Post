@@ -13,10 +13,21 @@ export default function TextInput({
   id?: string;
   defaultValue?: string;
   autoComplete?: HTMLInputAutoCompleteAttribute;
-  type?: HTMLInputTypeAttribute;
+  type?: HTMLInputTypeAttribute | "textarea";
 }) {
-  return (
-    <label htmlFor="name">
+  return type == "textarea" ? (
+    <label htmlFor={name} className="w-1/2">
+      <textarea
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        defaultValue={defaultValue}
+        className="w-full text-center  border bg-transparent"
+      />
+    </label>
+  ) : (
+    <label htmlFor={name}>
       <input
         type={type}
         id={id}

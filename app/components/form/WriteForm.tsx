@@ -29,6 +29,7 @@ export default function WriteForm({
         defaultValue={defaultValue?.description}
       />
       <TextInput
+        type="textarea"
         name="body"
         placeholder="Write your story here"
         defaultValue={defaultValue?.body}

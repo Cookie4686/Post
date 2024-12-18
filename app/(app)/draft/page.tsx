@@ -1,18 +1,14 @@
+import { Suspense } from "react";
+import Loading from "@/app/loading";
 import CardWrapper from "@/app/components/Card/WriterCard";
 import { writerGetPosts } from "@/app/lib/database";
-import Loading from "@/app/loading";
-import { Suspense } from "react";
 
 export default function Page() {
   return (
     <>
-      <header>
-        <h1>Draft</h1>
-      </header>
       <section>
-        <h2>Your Novels</h2>
-        <hr />
-        <div className="p-4">
+        <h1>Draft</h1>
+        <div className="mt-4 p-4 border">
           <Suspense fallback={<Loading />}>
             <CardList />
           </Suspense>

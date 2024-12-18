@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
-import "@/app/globals.css";
-import NavBar from "@/app/components/Navbar/Navbar";
 import { cookies } from "next/headers";
+import NavBar from "@/app/components/Navbar/Navbar";
+import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Novel",
+  metadataBase: new URL("https://post123.vercel.app/"),
+  title: "Post123",
+  openGraph: {
+    title: "Post123",
+    siteName: "Post123",
+    description: "Post something you love!",
+    type: "website",
+    locale: "en-TH",
+    images: "/book.webp",
+    determiner: "",
+  },
 };
 
 export default async function RootLayout({
