@@ -1,7 +1,9 @@
-import { auth, signOut } from "@/auth";
-import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/solid";
-import { KeyIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { auth, signOut } from "@/auth";
+import {
+  KeyIcon,
+  ArrowRightEndOnRectangleIcon,
+} from "@heroicons/react/24/solid";
 
 export default async function AuthButton() {
   const session = await auth();
@@ -10,7 +12,7 @@ export default async function AuthButton() {
       className="h-6"
       action={async () => {
         "use server";
-        await signOut();
+        await signOut({ redirect: true, redirectTo: "/login" });
       }}
     >
       <button type="submit">

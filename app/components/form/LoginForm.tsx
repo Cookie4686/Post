@@ -9,9 +9,11 @@ import Button from "../Button";
 export default function LoginForm({
   action,
   buttonName,
+  redirectUrl,
 }: {
   action: (state: FormState, formData: FormData) => Promise<FormState>;
   buttonName: string;
+  redirectUrl?: string;
 }) {
   const [state, act] = useActionState(action, undefined);
   return (
@@ -19,6 +21,11 @@ export default function LoginForm({
       action={act}
       className="flex flex-col items-center justify-center gap-8 p-8"
     >
+      <input
+        type="hidden"
+        name="redirectUrl"
+        defaultValue={redirectUrl || "/"}
+      />
       <div>
         <TextInput name="name" placeholder="Username" autoComplete="username" />
         {state?.errors?.username && (

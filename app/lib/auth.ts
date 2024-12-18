@@ -1,9 +1,9 @@
 'use server'
 
+import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs'
 import prisma from '@/prisma/prisma';
 import { signIn, UserSchema } from "@/auth";
-import { redirect } from 'next/navigation';
 
 export type FormState = {
   errors?: {
@@ -31,7 +31,8 @@ export async function logIn(state: FormState, formData: FormData): Promise<FormS
   } else {
     return { errors: parsedForm.error.flatten().fieldErrors }
   }
-  redirect('/write');
+  const redirectUrl = formData.get('redirectUrl') as string;
+  redirect(redirectUrl);
 }
 
 
@@ -57,5 +58,6 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
   } else {
     return { errors: parsedForm.error.flatten().fieldErrors }
   }
-  redirect('/write');
+  const redirectUrl = formData.get('redirectUrl') as string;
+  redirect(redirectUrl);
 }
