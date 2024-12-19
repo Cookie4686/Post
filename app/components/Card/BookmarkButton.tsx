@@ -15,13 +15,23 @@ export default function BookmarkButton({
   return bookmark ? (
     <form action={deleteBookmark.bind(null, postId, pathName)}>
       <button>
-        <BookmarkIcon width={24} height={24} fill="currentcolor" />
+        <BookmarkIcon
+          width={24}
+          height={24}
+          fill="currentcolor"
+          title="Unbookmark"
+        />
       </button>
     </form>
   ) : (
     <form action={addBookmark.bind(null, postId, pathName)}>
       <button>
-        <BookmarkIcon width={24} height={24} fill="transparent" />
+        <BookmarkIcon
+          width={24}
+          height={24}
+          fill="transparent"
+          title="Bookmark"
+        />
       </button>
     </form>
   );
