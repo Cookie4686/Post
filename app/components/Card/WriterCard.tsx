@@ -26,11 +26,7 @@ function Card(props: { novel: WriterCard }) {
     <div className="grid grid-cols-[30%,50%,10%,10%] items-center gap-2 h-24 p-4 w-full border rounded">
       {/* title */}
       <div className="overflow-hidden">
-        <Link
-          href={`/post/${novel.id}`}
-          title={`Read ${novel.title}`}
-          className="hover:underline"
-        >
+        <Link href={`/post/${novel.id}`} title={`Read ${novel.title}`} className="hover:underline">
           <span className="font-bold">{novel.title}</span>
         </Link>
         <li className="flex items-center gap-2">
@@ -44,22 +40,19 @@ function Card(props: { novel: WriterCard }) {
       <div className="text-nowrap overflow-hidden">{novel.description}</div>
       <div className="overflow-hidden">{novel.createdAt.toLocaleString()}</div>
       <div className="overflow-hidden flex gap-4">
-        <Link href={`/write/${novel.id}`}>
-          <PencilIcon width={24} height={24} title="edit" />
+        <Link href={`/write/${novel.id}`} title="edit">
+          <PencilIcon width={24} height={24} />
         </Link>
         <form action={makePublic.bind(null, !novel.published, novel.id)}>
-          <button>
-            {novel.published ? (
-              <EyeIcon width={24} height={24} color="lime" title="publish" />
-            ) : (
-              <EyeSlashIcon
-                width={24}
-                height={24}
-                color="red"
-                title="unpublish"
-              />
-            )}
-          </button>
+          {novel.published ? (
+            <button title="publish">
+              <EyeIcon width={24} height={24} color="lime" />
+            </button>
+          ) : (
+            <button title="unpublish">
+              <EyeSlashIcon width={24} height={24} color="red" />
+            </button>
+          )}
         </form>
       </div>
     </div>

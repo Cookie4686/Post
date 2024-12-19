@@ -16,7 +16,7 @@ export default function TextInput({
   type?: HTMLInputTypeAttribute | "textarea";
 }) {
   return type == "textarea" ? (
-    <label htmlFor={name} className="w-1/2">
+    <label htmlFor={name} aria-hidden className="w-1/2">
       <textarea
         id={id}
         name={name}
@@ -27,7 +27,7 @@ export default function TextInput({
       />
     </label>
   ) : (
-    <label htmlFor={name}>
+    <label htmlFor={name} aria-hidden>
       <input
         type={type}
         id={id}
