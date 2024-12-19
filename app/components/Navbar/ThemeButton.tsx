@@ -7,7 +7,7 @@ export default async function ThemeButton() {
   const theme = cookieStore.get("theme");
   return (
     <form action={setTheme} className="w-6 h-6">
-      <button>
+      <button title="Change theme">
         {theme && theme.value == "dark" ? (
           <SunIcon width={24} height={24} color="white" />
         ) : (

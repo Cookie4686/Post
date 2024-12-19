@@ -14,7 +14,6 @@ export type ReaderCard = {
   author: { name: string };
   bookmark: boolean;
 };
-
 const readerCardSelect = {
   id: true,
   title: true,
@@ -23,7 +22,7 @@ const readerCardSelect = {
 };
 
 // GET
-export async function getPosts(currentPage: number): Promise<{ totalPages: number; novels: ReaderCard[] }> {
+export async function getPosts(currentPage: number): Promise<{ novels: ReaderCard[]; totalPages: number }> {
   const id = (await auth())?.user.id;
   try {
     const [totalNovels, novels] = await Promise.all([
@@ -43,13 +42,13 @@ export async function getPosts(currentPage: number): Promise<{ totalPages: numbe
       : [];
 
     return {
-      totalPages: Math.ceil(totalNovels / paginationConfig.cardPerPage),
       novels: novels.map((e) => ({ ...e, bookmark: bookmarkIds.includes(e.id) })),
+      totalPages: Math.ceil(totalNovels / paginationConfig.cardPerPage),
     };
   } catch (err) {
     console.error(err);
   }
-  return { totalPages: 0, novels: [] };
+  return { novels: [], totalPages: 0 };
 }
 
 export async function getPost(novelId: string) {
@@ -158,7 +157,10 @@ export type WriterCard = {
   published: boolean;
 };
 const writerCardSelect = {
-  ...readerCardSelect,
+  id: true,
+  title: true,
+  tags: true,
+  author: { select: { name: true } },
   description: true,
   createdAt: true,
   published: true,

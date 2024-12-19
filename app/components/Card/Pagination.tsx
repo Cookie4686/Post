@@ -18,7 +18,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
   return (
     <div className="flex items-center">
       {currentPage > 1 ? (
-        <Link href={createPageUrl(currentPage - 1)}>
+        <Link href={createPageUrl(currentPage - 1)} title="previous page">
           <ArrowLeftIcon width={16} height={16} color="blue" />
         </Link>
       ) : (
@@ -28,7 +28,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
       <span>{currentPage}</span>
 
       {currentPage < totalPages ? (
-        <Link href={createPageUrl(currentPage + 1)}>
+        <Link href={createPageUrl(currentPage + 1)} title="next page">
           <ArrowRightIcon width={16} height={16} color="blue" />
         </Link>
       ) : (
